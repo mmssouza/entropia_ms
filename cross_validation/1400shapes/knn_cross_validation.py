@@ -1,20 +1,13 @@
 #!/usr/bin/python3
 
-print(__doc__)
-
-
-# Code source: Gael Varoqueux
-# Modified for Documentation merge by Jaques Grobler
-# License: BSD
 import warnings
+warnings.filterwarnings("ignore")
 import numpy as np
 from sklearn import neighbors,decomposition,cross_validation,pipeline,preprocessing
 import sys
 import pickle
 from os import urandom
 
-# import some data to play with
-warnings.simplefilter("ignore")
 n_pca = int(sys.argv[2])
 infile = sys.argv[1]
 db = pickle.load(open(infile,"rb"))
@@ -33,10 +26,10 @@ scores = ["precision_weighted","recall_weighted","f1_weighted"]
 
 for s in scores:
  sc = []   
- print(s)
+# print(s)
  for i in range(50):
   rand = int.from_bytes(urandom(4),'big')
-  it = cross_validation.StratifiedKFold(Y,n_folds = 3,shuffle = True,random_state = rand)  
+  it = cross_validation.StratifiedKFold(Y,n_folds = 5,shuffle = True,random_state = rand)  
   l = cross_validation.cross_val_score(clf,X,Y,cv = it,scoring = s)
   sc = sc + list(l)
 #  print("{0}: {1} {2}".format(i,l.mean(),l.std()))

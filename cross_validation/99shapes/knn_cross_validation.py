@@ -23,7 +23,7 @@ data = np.array([db[i] for i in db.keys()])
 
 Y = data[:,0].astype(int)
 X = preprocessing.scale(data[:,1:])
-clf = pipeline.Pipeline([('pca',decomposition.PCA(n_components = n_pca,whiten = True)),('knn',neighbors.KNeighborsClassifier(n_neighbors = 3))])
+clf = pipeline.Pipeline([('pca',decomposition.PCA(n_components = n_pca,whiten = False)),('knn',neighbors.KNeighborsClassifier(n_neighbors = 3))])
 
 #it = cross_validation.KFold(Y.size,n_folds = 500)
 

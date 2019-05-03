@@ -10,11 +10,16 @@ import pylab
 import pickle
 import sys
 from scipy.spatial.distance import pdist,squareform
+from sklearn import decomposition,preprocessing
 
 db = pickle.load(open(sys.argv[1],"rb"))
 data = pylab.array([v for v in db.values()])
-l = data[:,0]
-data = pylab.vstack([data[pylab.where(l == i)] for i in l])
-dist = squareform(pdist(data[:,1:]))
-pylab.imshow(dist,cmap=pylab.get_cmap('gray'))
+X = pylab.vstack([data[pylab.where(data[:,0] == i)] for i in range(1,int(data[:,0].max())+1)])
+print(X.shape)
+X = preprocessing.scale(X[:,1:])
+print(X.shape)
+XX = decomposition.PCA(n_components = 4,whiten = True).fit_transform(X)
+print(XX.shape)
+dist = squareform(pdist(XX))
+pylab.imshow(dist,cmap=pylab.get_cmap('gist_gray'))
 pylab.show()
